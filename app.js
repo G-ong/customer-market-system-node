@@ -5,16 +5,23 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var testRouter = require("./routes/test");
+var usersRouter = require("./routes/user");
+// var testRouter = require("./routes/test");
+var loginRouter = require("./routes/login");
+var getUserRouter = require("./routes/user");
 
 var app = express();
+
+// 启用 CORS 中间件, 解决跨域问题
+const cors = require("cors");
+app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 app.use(logger("dev"));
+// 引入并配置body-parser中间件, 用于解析req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -22,7 +29,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/test", testRouter);
+// app.use("/test", testRouter);
+app.use("/", loginRouter);
+app.use("/", getUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
