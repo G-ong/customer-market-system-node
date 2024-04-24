@@ -18,12 +18,17 @@ router.post("/", function (req, res, next) {
 router.get("/user/:userId", (req, res) => {
   const userId = req.params.userId;
   const objectId = new ObjectId(userId);
+
   User.find({ _id: objectId })
     .then((data) => {
       res.json({
         status: 200,
         msg: "查询成功",
-        list: data,
+        data: {
+          name: data[0].name,
+          email: data[0].email,
+          password: data[0].password,
+        },
       });
     })
     .catch((err) => {
@@ -34,10 +39,24 @@ router.get("/user/:userId", (req, res) => {
     });
 });
 
-// PUT /users/:id
-router.put("/:id", function (req, res, next) {
-  var userId = req.params.id;
-  res.send("update user with id: " + userId);
+// 根据userId修改用户信息
+router.put("/user/:userId", (req, res) => {
+  const userId = req.params.userId;
+  const { name, password } = req.body;
+
+  User.findByIdAndUpdate(userId, { name, password })
+    .then(() => {
+      res.json({
+        status: 200,
+        msg: "修改成功",
+      });
+    })
+    .catch((err) => {
+      res.json({
+        status: 404,
+        msg: err.message,
+      });
+    });
 });
 
 // DELETE /users/:id
@@ -47,19 +66,3 @@ router.delete("/:id", function (req, res, next) {
 });
 
 module.exports = router;
-
-// import axios from 'axios';
-
-// const userId = "66260ad196d7a59eb079a36e";
-// const url = `http://localhost:3000/user/${userId}`;
-
-// axios.get(url)
-//   .then(response => {
-//     // 处理响应数据
-//     const data = response.data;
-//     console.log(data);
-//   })
-//   .catch(error => {
-//     // 处理错误
-//     console.error(error);
-//   });
