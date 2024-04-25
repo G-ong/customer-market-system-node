@@ -86,11 +86,11 @@ router.post("/user", (req, res) => {
 });
 
 // 根据userId修改用户信息
-router.put("/user/:userId", (req, res) => {
+router.put("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
   const { name, password } = req.body;
 
-  User.findByIdAndUpdate(userId, { name, password })
+  await User.findByIdAndUpdate(userId, { name, password })
     .then(() => {
       res.json({
         status: 200,
@@ -106,11 +106,16 @@ router.put("/user/:userId", (req, res) => {
 });
 
 // 根据userId删除用户信息
-router.delete("/user/:userId", (req, res) => {
+router.delete("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
   const objectId = new ObjectId(userId);
   try {
-    const deletedUser = User.findByIdAndDelete(objectId);
+    const deletedUser = await User.findByIdAndDelete(objectId);
+    console.log(
+      "%c [ deletedUser ]-114",
+      "font-size:13px; background:pink; color:#bf2c9f;",
+      deletedUser
+    );
     if (!deletedUser) {
       return res.json({
         status: 404,
