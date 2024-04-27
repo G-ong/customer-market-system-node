@@ -9,6 +9,8 @@ var usersRouter = require("./routes/user");
 // var testRouter = require("./routes/test");
 var loginRouter = require("./routes/login");
 var getUserRouter = require("./routes/user");
+var ActivityRouter = require("./routes/activity");
+var ImgRouter = require("./routes/img");
 
 var app = express();
 
@@ -32,6 +34,8 @@ app.use("/users", usersRouter);
 // app.use("/test", testRouter);
 app.use("/", loginRouter);
 app.use("/", getUserRouter);
+app.use("/", ActivityRouter);
+app.use("/", ImgRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -48,5 +52,28 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+// const multer = require("multer");
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + "-" + Date.now());
+//   },
+// });
+
+// const upload = multer({ storage: storage });
+
+// app.post("/upload", upload.single("image"), function (req, res, next) {
+//   console.log(
+//     "%c [ req ]-66",
+//     "font-size:13px; background:pink; color:#bf2c9f;",
+//     req
+//   );
+//   // req.file 是 `image` 文件的信息
+//   // req.body 将包含文本域中的其他表单数据
+// });
 
 module.exports = app;
