@@ -27,48 +27,28 @@ function saveMessageToDB({ content, sender, receiver }) {
     });
 }
 
-module.exports = {
-  saveMessageToDB,
-};
-
 // 根据用户名获取消息列表
-router.get(
-  "/msg",
-  (req, res) => {
-    const query = {
-      $or: [{ sender: req.query.name }, { receiver: req.query.name }],
-    };
-    return Message.find(query)
-      .then((messages) => {
-        res.json({
-          status: 200,
-          msg: "查询成功",
-          data: messages,
-        });
-      })
-      .catch((err) => {
-        res.json({
-          status: 404,
-          msg: err.message,
-        });
+function getMessages(req, res) {
+  const query = {
+    $or: [{ sender: req.query.name }, { receiver: req.query.name }],
+  };
+  Message.find(query)
+    .then((messages) => {
+      res.json({
+        status: 200,
+        msg: "查询成功",
+        data: messages,
       });
-  }
+    })
+    .catch((err) => {
+      res.json({
+        status: 404,
+        msg: err.message,
+      });
+    });
+}
 
-  // MsgUser.find({})
-  //   .then((data) => {
-  //     res.json({
-  //       status: 200,
-  //       msg: "查询成功",
-  //       data: data,
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     res.json({
-  //       status: 404,
-  //       msg: err.message,
-  //     });
-  //   });
-  // }
-);
+router.get("/msg", getMessages);
 
 module.exports = router;
+module.exports.saveMessageToDB = saveMessageToDB;
