@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var MsgUser = require("../model/msgUser");
 
-// 获取所有用户
+// 管理端--获取聊天列表所有用户
 router.get("/msg/user/list", (req, res) => {
   MsgUser.find({})
     .then((data) => {

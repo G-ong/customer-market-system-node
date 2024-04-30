@@ -3,6 +3,7 @@ var router = express.Router();
 const Message = require("../model/message");
 const MsgUser = require("../model/msgUser");
 
+// 保存客户端发送的消息
 function saveMessageToDB({ content, sender, receiver }) {
   const message = new Message({ content, sender, receiver });
   message
@@ -15,6 +16,7 @@ function saveMessageToDB({ content, sender, receiver }) {
           if (!user) {
             const newUser = new MsgUser({
               name: sender !== "super" ? sender : receiver,
+              isNew: false,
             });
             return newUser.save();
           }

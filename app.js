@@ -75,22 +75,25 @@ const io = socketIo(server, {
 // "connection" 事件是 Socket.IO 提供的默认事件之一。当有客户端与服务器建立 WebSocket 连接时，Socket.IO 会自动触发 "connection" 事件，并执行回调函数中的逻辑。
 io.on("connection", (socket) => {
   // console.log("a user connected");
-  // 向客户端发送欢迎消息
-  socket.emit("receive_message", "Welcome to the server!");
-  // 处理Socket.IO的事件...
 
-  // 管理端发送数据
-  socket.on("super_send", (msg) => {
-    console.log(
-      "%c [ msg ]-76",
-      "font-size:13px; background:pink; color:#bf2c9f;",
-      msg
-    );
-  });
+  // // 向客户端发送欢迎消息
+  // socket.emit("receive_message", "Welcome to the server!");
+  // // 处理Socket.IO的事件...
 
-  // 监听 "super_send" 事件，将数据保存到数据库
-  socket.on("super_send", (msg) => {
+  // // 管理端发送数据
+  // socket.on("super_send", (msg) => {
+  //   console.log(
+  //     "%c [ msg ]-76",
+  //     "font-size:13px; background:pink; color:#bf2c9f;",
+  //     msg
+  //   );
+  // });
+
+  // 监听 "send_message" 事件，将数据保存到数据库
+  socket.on("send_message", (msg) => {
     messageHandler.saveMessageToDB(msg);
+    // 广播消息给所有连接的客户端
+    io.emit("receive_message", msg);
   });
 });
 

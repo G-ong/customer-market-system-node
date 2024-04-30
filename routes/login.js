@@ -14,7 +14,10 @@ router.post("/login", async (req, res, next) => {
           status: 200,
           msg: "登录成功",
           // 返回_id作为唯一标识：userId
-          userId: user._id,
+          data: {
+            userId: user._id,
+            userName: user.name,
+          },
         });
       } else {
         res.json({

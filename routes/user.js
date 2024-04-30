@@ -49,7 +49,7 @@ router.get("/user/:userId", (req, res) => {
 
 // 新增用户
 router.post("/user", (req, res) => {
-  const { name = "", email, password, userGroup } = req.body;
+  const { name = "[匿名]", email, password, userGroup } = req.body;
   // 查询是否存在相同email
   User.findOne({ email }).then((existingUser) => {
     // 存在-->无法注册
