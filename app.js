@@ -10,9 +10,11 @@ var usersRouter = require("./routes/user");
 var loginRouter = require("./routes/login");
 var getUserRouter = require("./routes/user");
 var ActivityRouter = require("./routes/activity");
+var CouponRouter = require("./routes/coupon");
 var ImgRouter = require("./routes/img");
 var msgUserRouter = require("./routes/msgUser");
 var messageRouter = require("./routes/message");
+var sendEmailRouter = require("./routes/sendEmail");
 
 const messageHandler = require("./routes/message");
 
@@ -39,9 +41,11 @@ app.use("/users", usersRouter);
 app.use("/", loginRouter);
 app.use("/", getUserRouter);
 app.use("/", ActivityRouter);
+app.use("/", CouponRouter);
 app.use("/", ImgRouter);
 app.use("/", msgUserRouter);
 app.use("/", messageRouter);
+app.use("/", sendEmailRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
