@@ -11,6 +11,7 @@ var loginRouter = require("./routes/login");
 var getUserRouter = require("./routes/user");
 var ActivityRouter = require("./routes/activity");
 var CouponRouter = require("./routes/coupon");
+var BannerRouter = require("./routes/banner");
 var ImgRouter = require("./routes/img");
 var msgUserRouter = require("./routes/msgUser");
 var messageRouter = require("./routes/message");
@@ -42,6 +43,7 @@ app.use("/", loginRouter);
 app.use("/", getUserRouter);
 app.use("/", ActivityRouter);
 app.use("/", CouponRouter);
+app.use("/", BannerRouter);
 app.use("/", ImgRouter);
 app.use("/", msgUserRouter);
 app.use("/", messageRouter);
@@ -71,7 +73,7 @@ const server = http.createServer(app);
 const socketIo = require("socket.io");
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173", // 替换为你的前端服务器的地址
+    origin: "http://localhost:5173", // 替换为前端服务器的地址
     methods: ["GET", "POST"],
   },
 });
